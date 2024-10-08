@@ -1,0 +1,133 @@
+1-) commande pour tuer les pocessuce du serveur node
+    # kill -9 $(ps aux | grep '\snode\s' | awk '{print $2}')
+
+
+2-) Renvoie toutes les métadonnées sur le Coran disponibles dans cette API
+
+    https://api.alquran.cloud/v1/meta
+
+
+    {
+        "code": 200,
+        "status": "OK",
+        "data": {
+                ...
+            }
+    }
+
+    surahs = [
+        {
+          "number": 1,
+          "name": "سُورَةُ ٱلْفَاتِحَةِ",
+          "englishName": "Al-Faatiha",
+          "englishNameTranslation": "The Opening",
+          "numberOfAyahs": 7,
+          "revelationType": "Meccan"
+        },
+        ....
+    ]
+
+    sajdas = [
+        {
+          "surah": 7,
+          "ayah": 206,
+          "recommended": true,
+          "obligatory": false
+        },
+
+        ...
+    ]
+
+    rukus = [
+        {
+          "surah": 1,
+          "ayah": 1
+        },
+
+        ...
+    ]
+
+    pages = [
+        {
+          "surah": 1, // la page debut par la sourate
+          "ayah": 1 
+        },
+
+        ...
+    ]
+
+    manzils = [
+        {
+          "surah": 1,
+          "ayah": 1
+        },
+        ...
+    ]
+
+    hizbQuarters = [
+        {
+          "surah": 1,
+          "ayah": 1
+        },
+        ...
+    ]
+
+    juzs = [
+        {
+          "surah": 1,
+          "ayah": 1
+        },
+        ...
+    ]
+
+2-) (Texte) Renvoie le texte du Saint Coran
+    https://api.alquran.cloud/v1/quran/quran-uthmani
+
+
+    {
+        "code": 200,
+        "status": "OK",
+        "data": {
+                ...
+            }
+    }
+        
+    "surahs": [
+        {
+            "number": 1,
+            "name": "سُورَةُ ٱلْفَاتِحَةِ",
+            "englishName": "Al-Faatiha",
+            "englishNameTranslation": "The Opening",
+            "revelationType": "Meccan",
+            "ayahs": [
+            {
+                "number": 1,
+                "text": "﻿بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+                "numberInSurah": 1,
+                "juz": 1,
+                "manzil": 1,
+                "page": 1,
+                "ruku": 1,
+                "hizbQuarter": 1,
+                "sajda": false
+            },
+
+            ...
+
+            ]
+        }
+    ]
+
+
+3-)  (Audio) Renvoie la récitation du Coran par Mishary Alafasy
+
+    http://api.alquran.cloud/v1/quran/ar.alafasy - (
+3-) Liste des sourate
+
+    https://api.alquran.cloud/v1/surah
+
+4-) Liste des ayat chaque sourate
+
+   http://api.alquran.cloud/v1/surah/114 {num_sourate}
+
+
