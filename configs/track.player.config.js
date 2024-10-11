@@ -38,15 +38,26 @@ export async function setupPlayer() {
 export async function removeTracksList() {
   const tracks = await TrackPlayer.getQueue();
   if(tracks && tracks.length  > 0) {
-    await TrackPlayer.remove([trackIndex1, trackIndex2]);
+    await TrackPlayer.remove([tracks]);
   }
 }
 
 export async function addTrack() {
+
+      // audios  = [ 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001001.mp3", 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001002.mp3", 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001003.mp3", 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001004.mp3", 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001005.mp3", 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001006.mp3", 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001007.mp3"
+    // ]
+
   await TrackPlayer.add([
     {
       id: '1',
-      url: 'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001001.mp3',
+      url: '/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001001.mp3',
       artwork: require('../assets/images/image.jpg'),
       title: 'Al-Faatiha 1',
       artist: 'Abdul Basit Abdul Samad',
@@ -54,7 +65,7 @@ export async function addTrack() {
     },
     {
         id: '2',
-        url: 'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001002.mp3',
+        url: '/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001002.mp3',
         artwork: require('../assets/images/image.jpg'),
         title: 'Al-Faatiha 2',
         artist: 'Abdul Basit Abdul Samad',
@@ -62,9 +73,45 @@ export async function addTrack() {
     },
     {
         id: '3',
-        url: 'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001003.mp3',
+        url: '/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001003.mp3',
         artwork: require('../assets/images/image.jpg'),
         title: 'Al-Faatiha 3',
+        artist: 'Abdul Basit Abdul Samad',
+        duration: 6,
+    }
+    ,
+    {
+        id: '3',
+        url: '/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001004.mp3',
+        artwork: require('../assets/images/image.jpg'),
+        title: 'Al-Faatiha 4',
+        artist: 'Abdul Basit Abdul Samad',
+        duration: 6,
+    }
+    ,
+    {
+        id: '3',
+        url: '/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001005.mp3',
+        artwork: require('../assets/images/image.jpg'),
+        title: 'Al-Faatiha 5',
+        artist: 'Abdul Basit Abdul Samad',
+        duration: 6,
+    }
+    ,
+    {
+        id: '3',
+        url: '/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001006.mp3',
+        artwork: require('../assets/images/image.jpg'),
+        title: 'Al-Faatiha 6',
+        artist: 'Abdul Basit Abdul Samad',
+        duration: 6,
+    }
+    ,
+    {
+        id: '3',
+        url: '/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001007.mp3',
+        artwork: require('../assets/images/image.jpg'),
+        title: 'Al-Faatiha 7',
         artist: 'Abdul Basit Abdul Samad',
         duration: 6,
     }

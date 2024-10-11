@@ -2,14 +2,15 @@ export const ROLE_USER = "ROLE_USER";
 export const ROLE_ADMIN = "ROLE_ADMIN";
 
 // url API
-export const API_QURAN_BASE_URL = 'https://api.alquran.cloud/v1';   
+export const API_QURAN_BASE_URL = 'https://api.alquran.cloud/v1';
+export const API_RECITATORS_QURAN_BASE_URL = "https://everyayah.com/data";  
 // API_QURAN_BASE_URL+ '    ' : Renvoie toutes les métadonnées sur le Coran disponibles dans cette API   
 // API_QURAN_BASE_URL+ '/quran/ar.alafasy' :  (Audio) Renvoie la récitation du Coran par Mishary Alafasy
 // API_QURAN_BASE_URL+ '/surah' :  Liste des sourate
 // API_QURAN_BASE_URL+ '/surah/{num_sourate}' :  Liste des sourate
-// /surah/{num_sourate}/fr.asad : Liste des ayats de la sourate
-
-export const SECRET_KEY = 'flex-db@caisse';
+// API_QURAN_BASE_URL+ '/surah/{num_sourate}/fr.asad' : Liste des ayats de la sourate
+// API_RECITATORS_QURAN_BASE_URL + '/recitations.js' :  Renvoie toutes les métadonnées sur les recitateurs du Coran disponibles dans cette API
+// API_RECITATORS_QURAN_BASE_URL + '/{subfolder}/{num_sourate_sur_3_caracteres}{num_ayat_sur_3_caracteres}.mp3' :  Renvoie l'audio de l'ayat pour le recitateur 
 
 
 //tables de la base de données
@@ -25,6 +26,7 @@ export const PAGES_TABLE_NAME = "t_pages";
 export const MANZILS_TABLE_NAME = "t_manzils";
 export const HIZBQUARTERS_TABLE_NAME = "t_hizbQuarters";
 export const JUZS_TABLE_NAME="t_juzs";
+export const RECITATORS_TABLE_NAME="t_recitators";
 
 export const NB_SURAHS = 114;
 export const NB_SAJDAS = 15;
@@ -34,6 +36,7 @@ export const NB_MANZILS = 7;
 export const NB_HIZBQUARTERS = 240;
 export const NB_JUZS=30;
 export const NB_AYAHS= 6236;
+export const NB_RECITATORS= 79;
 
 
 
@@ -105,5 +108,14 @@ export const DB_SCHEMA_1: string[] =
         surah SMALLINT NOT NULL,
         ayah SMALLINT NOT NULL,
         CONSTRAINT primary_key_${JUZS_TABLE_NAME} PRIMARY KEY (surah, ayah)
+    );`
+
+    ,
+
+    `CREATE TABLE IF NOT EXISTS ${RECITATORS_TABLE_NAME} (
+        id SMALLINT PRIMARY KEY NOT NULL,
+        subfolder TEXT NOT NULL,
+        name TEXT NOT NULL,
+        bitrate TEXT NOT NULL
     );`
 ];

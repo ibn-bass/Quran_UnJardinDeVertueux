@@ -54,7 +54,6 @@ class ConfigLoaderComponent extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isOkConfig:state.config.isOkConfig,
     isErrConfig:state.config.isErrConfig,
     message: state.config.message,
     text: state.config.text

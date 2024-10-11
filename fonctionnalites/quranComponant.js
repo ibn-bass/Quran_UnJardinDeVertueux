@@ -31,19 +31,93 @@ class QuranComponant extends React.Component {
     }
   }
 
+  
 
   async componentDidMount() {
     await this.showConfigLoad()
 
     await this.setupDB()
-    await this.setupLecteur();
 
+    // this.props {"dispatch": [Function dispatch], 
+    //               "isConfigDb": false, "isErrConfig": true, "isInitDb": true, "isOkConfig": false, "messageConfig": "Impossible de congigurer la base de données", "textConfig": ""}
+    let audiosUrs = [
+      {
+        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001001.mp3',
+        name:"001001.mp3"
+      },
+      {
+        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001002.mp3',
+        name:"001002.mp3"
+      },
+      {
+        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001003.mp3',
+        name:"001003.mp3"
+      },
+      {
+        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001004.mp3',
+        name:"001004.mp3"
+      },
+      {
+        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001005.mp3',
+        name:"001005.mp3"
+      },
+      {
+        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001006.mp3',
+        name:"001006.mp3"
+      },
+      {
+        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001007.mp3',
+        name:"001007.mp3"
+      }
+
+    ];
+
+    console.log("audiosUrs",audiosUrs)
+    let nrs = new NetworkingRequestsService();
+    console.log(nrs)
+    let audios  = await nrs.getAyatsAudio(audiosUrs);
+    console.log("audios", audios);
+
+    audios  = [ 
+      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001001.mp3", 
+      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001002.mp3", 
+      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001003.mp3", 
+      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001004.mp3", 
+      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001005.mp3", 
+      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001006.mp3", 
+      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001007.mp3"
+    ]
+
+    let isConfigDB =  this.getValueOnObjet(this.props,'isConfigDB');
+    
+    await this.setupLecteur();
+    
+  
     if(!this.props.isErrConfig){
       await this.hideConfigLoad()
     }
 
   }
 
+  getValueOnObjet(object,cle){
+    let val = undefined;
+    for (const key in object) {
+      if (Object.prototype.hasOwnProperty.call(object, key)) {
+        if(key.trim().toLowerCase() === cle.trim().toLowerCase()){
+          val = object[key]
+          console.log("val",val)
+          return val;
+        }
+      }
+    }
+    console.log("val",val)
+    return val;
+  }
+
+  isConfigDb
+
+
+ isConfigDB
 
   async showConfigLoad(){
     await this.props.dispatch({ type: "UPDATE_STATUS_CONFIG_LOADER", value: {isOkConfig:false,isErrConfig:false}})
@@ -58,20 +132,18 @@ class QuranComponant extends React.Component {
   async setupDB(){
       console.log(this.props.message)
       let sqliteService = new SqliteService();
-
+      sqliteService.setEmptyDB();
       try{
         let isInitDb  = await sqliteService.isInitDb();
 
-        await this.props.dispatch({ type: "UPDATE_MSG_CONFIG_LOAD", value: {message:'Initialisation de la base de données ...'}})
-
         if(!this.props.isInitDb || !isInitDb){
+          await this.props.dispatch({ type: "UPDATE_MSG_CONFIG_LOAD", value: {message:'Initialisation de la base de données ...'}})
           await sqliteService.initializePlugin();  
           isInitDb =  await sqliteService.isInitDb();
           if(isInitDb){
             await this.props.dispatch({ type: "INIT_DB", value: {isInitDb:true}})
             console.log("La base de données est initialisée ")
           } else {
-
             await this.props.dispatch({ type: "INIT_DB", value: {isInitDb:false}})
             await this.props.dispatch({ type: "UPDATE_MSG_CONFIG_LOAD", value: {message:"Impossible d'initialisé la base de données"}})
             await this.props.dispatch({ type: "UPDATE_STATUS_CONFIG_LOADER", value: {isErrConfig:true}})
@@ -84,6 +156,7 @@ class QuranComponant extends React.Component {
             await this.props.dispatch({ type: "UPDATE_MSG_CONFIG_LOAD", value: {message:'Configuration de la base de données ...'}})
             
             let isConfigDB = await sqliteService.isConfigDB();
+            
 
             if(!this.props.isConfigDb || !isConfigDB){
 
@@ -95,7 +168,6 @@ class QuranComponant extends React.Component {
               await  sqliteService.setMetaDataQuran(rst.data,this.props.dispatch);
               // await sqliteService.setData();
               let isConfigDB = await sqliteService.isConfigDB();
-
               if(isConfigDB){
                 await this.props.dispatch({ type: "CONFIG_DB", value: {isConfigDb:true}})
                 console.log("La base de données est congiguré")
@@ -130,18 +202,25 @@ class QuranComponant extends React.Component {
 
 
   async  setupLecteur() {
-    await this.props.dispatch({ type: "UPDATE_MSG_CONFIG_LOAD", value: {message:'Configuration du lécteur ...'}})
-
+    await this.props.dispatch({ type: "UPDATE_MSG_CONFIG_LOAD", value: {message:'0/1 Configuration du lécteur ...'}})
     let isSetup = await setupPlayer();
     if(isSetup){
-      await removeTracksList();
-      await addTrack();
-      this.setState({
-        ...this.state,
-        play:isSetup
-      })
+      try {
+        await removeTracksList();
+        await addTrack();
+        this.setState({
+          ...this.state,
+          play:isSetup
+        })
+      } catch(err){
+        console.log(err)
+      }
+
+      await this.props.dispatch({ type: "UPDATE_STATUS_CONFIG_LOADER", value: {isErrConfig:false}})
+      await this.props.dispatch({ type: "UPDATE_MSG_CONFIG_LOAD", value: {message:"1/1 Configuration du lécteur ..."}})
     } else {
-      console.log("Le lecteur n'est pas bien congigurer")
+      await this.props.dispatch({ type: "UPDATE_STATUS_CONFIG_LOADER", value: {isErrConfig:true}})
+      await this.props.dispatch({ type: "UPDATE_MSG_CONFIG_LOAD", value: {message:"Le lécteur n'a pas pu etre configurer ..."}})      
     }
   }
 
@@ -170,12 +249,9 @@ class QuranComponant extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isConfigDb: state.db.isConfigDb,
-    isInitDb: state.db.isInitDb,
-    isOkConfig:state.config.isOkConfig,
-    isErrConfig:state.config.isErrConfig,
-    messageConfig: state.config.message,
-    textConfig: state.config.text
+    ...state.db,
+    ...state.config,
+    ...state.player
   }
 }
 
@@ -187,3 +263,24 @@ const mapDispatchToProps = (dispatch) => {
 
 
 export default connect(mapStateToProps,mapDispatchToProps)(QuranComponant);
+
+
+// {
+//     "_persist": {
+//         "rehydrated": true, 
+//         "version": -1
+//     }, 
+//     "config": {
+//       "isErrConfig": false, 
+//       "isOkConfig": false, 
+//       "message": "Configuration en cours ...", 
+//       "text": ""
+//     },
+//     "db": {
+//       "isConfigDb": false, 
+//       "isInitDb": false
+//     }
+// }
+
+// state {"_persist": {"rehydrated": true, "version": -1}, "config": {"isErrConfig": false, "isOkConfig": true, "message": "Configuration en cours ...", "text": ""}, "db": {"isConfigDb": true, "isInitDb": true}}
+

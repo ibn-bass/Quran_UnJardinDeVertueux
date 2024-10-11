@@ -1,10 +1,12 @@
 // Store/configureStore.js
 
 import { createStore  } from 'redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persistCombineReducers } from 'redux-persist'
 import dbReducer from './reducers/dbReducer';
 import configReducer from './reducers/configReducer';
-import { persistCombineReducers } from 'redux-persist'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import playerReducer from './reducers/playerReducer';
+
 
 const rootPersistConfig = {
     key: 'root',
@@ -14,8 +16,8 @@ const rootPersistConfig = {
 
 const rootReducer = { 
     db: dbReducer,
-    config:configReducer
+    config:configReducer,
+    player:playerReducer
 };
 
-// export default createStore(rootReducer, applyMiddleware(thunk));
 export default createStore(persistCombineReducers(rootPersistConfig, rootReducer))

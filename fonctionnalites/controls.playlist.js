@@ -2,6 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import TrackPlayer, {usePlaybackState, State} from 'react-native-track-player';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { addTrack ,removeTracksList} from '../configs/track.player.config';
 
 
 

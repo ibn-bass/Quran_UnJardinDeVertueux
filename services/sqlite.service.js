@@ -12,6 +12,7 @@ import {
     HIZBQUARTERS_TABLE_NAME,
     JUZS_TABLE_NAME,
     NB_JUZS,
+    RECITATORS_TABLE_NAME,
 } from '../CONSTANTES';
 
 
@@ -141,7 +142,7 @@ export default class SqliteService {
                 isOK = false;
             }
         } catch (error) {
-            console.error(error);
+            console.log(error);
             isOK = false;
         }
 
@@ -157,7 +158,8 @@ export default class SqliteService {
             `DELETE FROM  ${PAGES_TABLE_NAME}`,
             `DELETE FROM  ${MANZILS_TABLE_NAME}`,
             `DELETE FROM  ${HIZBQUARTERS_TABLE_NAME}`,
-            `DELETE FROM  ${JUZS_TABLE_NAME}`
+            `DELETE FROM  ${JUZS_TABLE_NAME}`,
+            `DELETE FROM  ${RECITATORS_TABLE_NAME}`
         ]
 
         for (let index = 0; index < sqls.length; index++) {
@@ -349,6 +351,30 @@ export default class SqliteService {
             };
         });
 
+        let recitators_sql = (data.recitators.references).map((rt)  => {
+            return {
+                sql:`INSERT INTO  ${RECITATORS_TABLE_NAME}(
+                            id,
+                            subfolder,
+                            name,
+                            bitrate
+                        )
+                        VALUES (
+                            ?,
+                            ?,
+                            ?,
+                            ?
+                        )`,
+                    values : [
+                        rt.id,
+                        rt.subfolder,
+                        rt.name,
+                        rt.bitrate
+                    ]
+            };
+        });
+
+
         let sqls = [
             surahs_sql,
             ayahs_sql,
@@ -357,7 +383,8 @@ export default class SqliteService {
             pages_sql,
             manzils_sql,
             hizbQuarters_sql,
-            juzs_sql
+            juzs_sql,
+            recitators_sql
         ];
 
         if(this.db == null){
@@ -379,7 +406,7 @@ export default class SqliteService {
         })
         
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     }
   

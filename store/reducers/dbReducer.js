@@ -4,19 +4,18 @@ const initialStateDb = {
     isInitDb:false
 };
 
-
 export default  function dbReducer (state = initialStateDb, action){
     let nextState = null;
 
     switch (action.type) {
-        case 'INIT_DB':{
+
+        case 'INIT_DB': {
 
             nextState = {
                 ... state,
                 isInitDb: action.value.isInitDb
             };
-            
-        } 
+        }
         break;
 
         case 'CONFIG_DB':{
@@ -25,10 +24,12 @@ export default  function dbReducer (state = initialStateDb, action){
                 ... state,
                 isConfigDb: action.value.isConfigDb
             };
-        
-        }
+
+            return nextState
+        } 
+
         break;
     }
 
-    return nextState || state
+    return  nextState || state 
 }
