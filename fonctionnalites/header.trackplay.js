@@ -31,8 +31,7 @@ function Header() {
 
   return(
     <View>
-        <Text style={styles.songTitle}>{info.title}</Text>
-        <Text style={styles.artistName}>{info.artist}</Text>
+        <Text style={styles.songTitle}>{info.title} {info.artist}</Text>
     </View>
   );
 }
@@ -40,8 +39,7 @@ function Header() {
 
 const styles = StyleSheet.create({
     songTitle: {
-    fontSize: 32,
-    marginTop: 50,
+    fontSize: 16,
     color: '#CA92EE'
     },
     artistName: {

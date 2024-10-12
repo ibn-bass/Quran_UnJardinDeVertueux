@@ -13,6 +13,10 @@ import { connect } from 'react-redux'
 import SqliteService from '../services/sqlite.service'
 import NetworkingRequestsService from '../services/networking.requests.service'
 import ConfigLoaderComponent from './configLoaderComponent'
+import TrackSettingComponent from './trackSettingComponent'
+import TrackPlayer, {usePlaybackState, State} from 'react-native-track-player';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -27,7 +31,19 @@ class QuranComponant extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      play: false
+      play: false,
+      modalVisible:false
+    }
+
+  }
+
+
+  async handlePlayPress() {
+    if(await TrackPlayer.getState() == State.Playing) {
+      TrackPlayer.pause();
+    }
+    else {
+      TrackPlayer.play();
     }
   }
 
@@ -40,53 +56,53 @@ class QuranComponant extends React.Component {
 
     // this.props {"dispatch": [Function dispatch], 
     //               "isConfigDb": false, "isErrConfig": true, "isInitDb": true, "isOkConfig": false, "messageConfig": "Impossible de congigurer la base de données", "textConfig": ""}
-    let audiosUrs = [
-      {
-        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001001.mp3',
-        name:"001001.mp3"
-      },
-      {
-        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001002.mp3',
-        name:"001002.mp3"
-      },
-      {
-        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001003.mp3',
-        name:"001003.mp3"
-      },
-      {
-        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001004.mp3',
-        name:"001004.mp3"
-      },
-      {
-        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001005.mp3',
-        name:"001005.mp3"
-      },
-      {
-        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001006.mp3',
-        name:"001006.mp3"
-      },
-      {
-        url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001007.mp3',
-        name:"001007.mp3"
-      }
+    // let audiosUrs = [
+    //   {
+    //     url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001001.mp3',
+    //     name:"001001.mp3"
+    //   },
+    //   {
+    //     url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001002.mp3',
+    //     name:"001002.mp3"
+    //   },
+    //   {
+    //     url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001003.mp3',
+    //     name:"001003.mp3"
+    //   },
+    //   {
+    //     url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001004.mp3',
+    //     name:"001004.mp3"
+    //   },
+    //   {
+    //     url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001005.mp3',
+    //     name:"001005.mp3"
+    //   },
+    //   {
+    //     url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001006.mp3',
+    //     name:"001006.mp3"
+    //   },
+    //   {
+    //     url:'https://everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/001007.mp3',
+    //     name:"001007.mp3"
+    //   }
 
-    ];
+    // ];
 
-    console.log("audiosUrs",audiosUrs)
-    let nrs = new NetworkingRequestsService();
-    console.log(nrs)
-    let audios  = await nrs.getAyatsAudio(audiosUrs);
-    console.log("audios", audios);
+    // console.log("audiosUrs",audiosUrs)
+    // let nrs = new NetworkingRequestsService();
+    // console.log(nrs)
+    // let audios  = await nrs.getAyatsAudio(audiosUrs);
+    // console.log("audios", audios);
 
-    audios  = [ 
-      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001001.mp3", 
-      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001002.mp3", 
-      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001003.mp3", 
-      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001004.mp3", 
-      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001005.mp3", 
-      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001006.mp3", 
-      "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001007.mp3"
-    ]
+    // audios  = [ 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001001.mp3", 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001002.mp3", 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001003.mp3", 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001004.mp3", 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001005.mp3", 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001006.mp3", 
+    //   "/storage/emulated/0/Android/data/com.unjardindevertueux2/files/001007.mp3"
+    // ]
 
     let isConfigDB =  this.getValueOnObjet(this.props,'isConfigDB');
     
@@ -226,22 +242,54 @@ class QuranComponant extends React.Component {
 
   render (){
     return (
-      <View style={styles.container}>
-        {
-
           this.props.isOkConfig ? 
             (
               <View style={styles.container}>
-                <Header/>
-                <TrackProgress/>
-                <Playlist/>
+                  <View style={{ flex: 12}}>
+                    <TrackProgress/>
+                    <Playlist/>
+                  </View>
+                  <View style={{ 
+                        flex: 1 ,
+                        flexDirection: 'row',
+                         alignItems: 'center',
+                         justifyContent:'space-evenly'
+                        }}
+                    >
+                        <Icon.Button
+                            name="stop"
+                            size={20}
+                            onPress={() => TrackPlayer.stop()}/>
+                          <Icon.Button
+                            name="arrow-left"
+                            size={20}
+                            onPress={() => TrackPlayer.skipToPrevious()}/>
+  
+                          <Icon.Button
+                            size={20}
+                             name = 'play'
+                            onPress={this.handlePlayPress}/>
+                          <Icon.Button
+                            name="arrow-right"
+                            size={20}
+                            onPress={() => TrackPlayer.skipToNext()}/>
+                          <Icon.Button
+                            name="setting"
+                            size={20}
+                            onPress={async () => {
+                              await this.props.dispatch({ type: "UPDATE_CONFIG_STATE", value: {visibleConfigTrack:!this.props.visibleConfigTrack}})
+                            }
+                          }/>
+                  </View>
+                  <TrackSettingComponent />
               </View>
             ) :
             (
-              <ConfigLoaderComponent />
+              <View style={styles.container}>
+                <ConfigLoaderComponent />
+              </View>
             )
-        }   
-      </View>   
+                    
     );
   }
 

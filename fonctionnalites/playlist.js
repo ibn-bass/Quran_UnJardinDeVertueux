@@ -10,13 +10,8 @@ import TrackPlayer, {
   Event, 
   State} from 'react-native-track-player';
 
-
-
-
 import Controls from './controls.playlist';
 import PlaylistItem from './playlistItem';
-
-
 
 
 function Playlist() {
@@ -25,6 +20,7 @@ function Playlist() {
   
     async function loadPlaylist() {
       const queue = await TrackPlayer.getQueue();
+
       setQueue(queue);
     }
   
@@ -48,20 +44,19 @@ function Playlist() {
     }
   
     return(
-      <View>
         <View style={styles.playlist}>
           <FlatList
             data={queue}
+            keyExtractor={(id) => { id.toString(); }}
             renderItem={({item, index}) => 
             <PlaylistItem
               index={index}
+              key={'playlistItem'+index}
               title={item.title}
               isCurrent={currentTrack == index }/>
             }
           />
         </View>
-        <Controls onShuffle={handleShuffle}/>
-      </View>
     );
 }
 

@@ -15,13 +15,14 @@ function PlaylistItem({index, title, isCurrent}) {
     }
 
     return (
-      <TouchableOpacity onPress={handleItemPress}>
+      <TouchableOpacity  onPress={handleItemPress}>
         <Text
           style={{...styles.playlistItem,
             ...{backgroundColor: isCurrent ? '#666' : '#fff'}}}>
         {title}
         </Text>
       </TouchableOpacity>
+      
     );
 }
 

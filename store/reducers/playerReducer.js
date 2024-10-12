@@ -2,7 +2,8 @@
 const initialStateDb = { 
     isConfigPlayer:false,
     track:[],
-    trackDefault: []
+    trackDefault: [],
+    visibleConfigTrack:true
 };
 
 export default  function playerReducer (state = initialStateDb, action){
@@ -32,11 +33,16 @@ export default  function playerReducer (state = initialStateDb, action){
         break;
 
         case 'UPDATE_CONFIG_STATE':{
-        
+
+            console.log("UPDATE_CONFIG_STATE action",action)
+
             nextState = {
                 ... state,
-                isConfigPlayer: action.value.isConfigPlayer
+                isConfigPlayer: action.value.isConfigPlayer ?? state.isConfigPlayer,
+                visibleConfigTrack: action.value.visibleConfigTrack ?? state.visibleConfigTrack
             };
+
+            console.log("nextState",nextState)
         } 
         
         break;
